@@ -1,0 +1,8 @@
+*~
+!*.gitkeep
+*.pyc
+*.map
+*.env
+.idea
+.DS_Store
+/venv/

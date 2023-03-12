@@ -1,0 +1,36 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+# REST requests
+requests = "*"
+# for scrapping html websites
+beautifulsoup4 = "*"
+requests-html = "*"
+# for .env file loading
+python-dotenv = "*"
+# for data type check
+pydantic = "*"
+sqlmodel = "*"
+# orm
+sqlalchemy = {version = "*", extras = ["asyncio,mypy"]}
+# async postgres driver
+asyncpg = "*"
+databases = {extras = ["postgresql"], version = "*"}
+# http framework
+fastapi = "*"
+# async gunicorn alternative
+uvicorn = "*"
+#code auto-formatting tool
+pre-commit = "==2.19.0"
+#logging
+sentry-sdk = "==1.6.0"
+# for Dependency injection and start o IoC
+injector = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"
