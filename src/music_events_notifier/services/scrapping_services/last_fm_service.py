@@ -3,30 +3,35 @@ import time
 
 import requests
 
-from src.settings import settings
+from src.music_events_notifier.services.scrapping_services.interface import ILastFmService
+from src.music_events_notifier.settings import settings
 
 log = logging.getLogger(__name__)
 
 
-class LastFmService:
-    HEADERS = {
-        "User-Agent": f"Event notifier, user: Nelibjir",
-    }
+class LastFmService(ILastFmService):
 
+    def __init__(self,):
+        self._header = {
+            "User-Agent": f"Event notifier, user: {settings.LAST_FM_REQUEST_USERNAME}",
+        }
+        self._output_formats = ["json", "xml"]
+
+    # TODO add username parameter
     def request_top_artists(self, output_format):
-        if output_format not in ["json", "xml"]:
+        if output_format not in self._output_formats:
             log.error(f"Not supported format: {output_format}")
             return
         # TODO: user.gettopartists can be as parameter and format also
         #       number constants should be put also away
         request_url = settings.LAST_FM_BASE_URL + \
-                      f"?method=user.gettopartists" \
-                      f"&user={settings.LAST_FM_USERNAME}" \
-                      f"&api_key={settings.LAST_FM_API_KEY}" \
-                      f"&period={settings.LAST_FM_HISTORY}" \
-                      f"&limit={settings.LAST_FM_LIMIT}" \
-                      f"&format={output_format}"
-        response = requests.get(request_url, headers=self.HEADERS)
+            f"?method=user.gettopartists" \
+            f"&user={settings.LAST_FM_REQUEST_USERNAME}" \
+            f"&api_key={settings.LAST_FM_API_KEY}" \
+            f"&period={settings.LAST_FM_HISTORY}" \
+            f"&limit={settings.LAST_FM_LIMIT}" \
+            f"&format={output_format}"
+        response = requests.get(request_url, headers=self._header)
         for retry_nb in range(settings.REQUEST_NB_ATTEMPTS):
             if response.status_code == 200:
                 break

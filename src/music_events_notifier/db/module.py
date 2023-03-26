@@ -1,7 +1,7 @@
 import databases
 from injector import Module, provider, singleton
 
-from src.data_evaluation import settings
+from src.music_events_notifier import settings
 
 
 class DbModule(Module):
