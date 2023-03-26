@@ -12,4 +12,14 @@ class MyEvent(SQLModel, table=True):
     name: str = Field(max_length=70)
     created_at: Optional[datetime.datetime] = datetime.datetime.now
 
+    def __eq__(self, other):
+        return (self.name == other or
+                self.name == getattr(other, 'name', None))
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __hash__(self):
+        return hash(self.name)
+
 

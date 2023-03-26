@@ -2,6 +2,7 @@ import logging
 import requests
 from requests_html import AsyncHTMLSession
 
+from src.music_events_notifier.db.tables.my_event import MyEvent
 from src.music_events_notifier.services.scrapping_services.interface import ITicketPortalService
 from src.music_events_notifier.settings import settings
 
@@ -14,7 +15,7 @@ class TicketPortalService(ITicketPortalService):
 
     async def get_event_data(self) -> set:
         row_number = 0
-        event_names = set()
+        events = set()
 
         try:
             r = (await self._asession.get(settings.TICKETPORTAL_URL))
@@ -27,9 +28,16 @@ class TicketPortalService(ITicketPortalService):
                 if element is None or len(element) == 0:
                     break
 
-                for event_name in element[0].find("h3"):
-                    event_names.add(event_name.text)
+                for caption in element[0].find(".caption"):
+                    city = caption.find(".place")[0].text
+                    event_name = caption.find("h3")[0].text
+                    date = caption.find(".date")[0].text
+                    event = MyEvent(date=date, location=city, name=event_name)
+                    events.add(event)
+
+                #for event_name in element[0].find("h3"):
+                #    event_names.add(event_name.text)
         except requests.exceptions.RequestException as e:
             log.error(f"Error while requesting Ticket Portal: {e}")
 
-        return event_names
+        return events

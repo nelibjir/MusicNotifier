@@ -1,11 +1,13 @@
 import asyncio
 import logging
 from dataclasses import dataclass
+from typing import Set
 
 from injector import inject, Inject
 
 import nest_asyncio
 
+from src.music_events_notifier.db.tables.my_event import MyEvent
 from src.music_events_notifier.services.scrapping_services.interface import ITicketPortalService, ILastFmService
 from src.music_events_notifier.workers.interface import IScrapingWorker
 
@@ -41,10 +43,10 @@ class ScrapingWorker(IScrapingWorker):
         log.info(my_events)
 
     @staticmethod
-    def filter_users_events(events: set, my_artists: set) -> set:
+    def filter_users_events(events: Set[MyEvent], my_artists: set) -> set:
         events_interested = set()
         for artist_name in my_artists:
-            for event_name in events:
-                if artist_name in event_name:
-                    events_interested.add(event_name)
+            for event in events:
+                if artist_name in event.name:
+                    events_interested.add(artist_name)
         return events_interested

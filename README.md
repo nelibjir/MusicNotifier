@@ -29,7 +29,7 @@ Run app with::
 ``docker-compose up``
 
 ## TODO
+- save to DB
 - docker
 - precommit-tool set up
-- noSql
-- 
+- save to noSql

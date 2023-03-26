@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  music_events:
+    build: .
+    restart: always
+    env_file:
+      - ./.env
+    command: python main.py
+    volumes:
+      - ./app_data:/home/app/app-data/
+    depends_on:
+      - db
