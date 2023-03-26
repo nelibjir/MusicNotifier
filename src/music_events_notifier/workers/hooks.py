@@ -8,5 +8,5 @@ def register_scrapping_hooks(fastapi: FastAPI) -> None:
     scrapping_worker = get_injector().get(IScrapingWorker)
 
     @fastapi.on_event("startup")
-    async def startup():
+    def startup():
         scrapping_worker.start_scraping()

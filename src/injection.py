@@ -2,6 +2,8 @@ from typing import Optional
 
 import injector
 
+from src.music_events_notifier.services.module import MusicEventServiceModule
+
 
 def configure_injector() -> injector.Injector:
 
@@ -12,6 +14,7 @@ def configure_injector() -> injector.Injector:
         modules=[
             DbModule,
             ScrapingWorkerModule,
+            MusicEventServiceModule,
         ],
         auto_bind=True,
     )

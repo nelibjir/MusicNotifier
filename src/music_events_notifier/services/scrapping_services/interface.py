@@ -3,7 +3,7 @@ import abc
 
 class ITicketPortalService(abc.ABC):
     @abc.abstractmethod
-    def get_event_data(self):
+    async def get_event_data(self):
         """
         Get the data from TicketPortal site
         """

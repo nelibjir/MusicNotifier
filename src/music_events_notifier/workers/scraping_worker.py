@@ -1,11 +1,15 @@
+import asyncio
 import logging
 from dataclasses import dataclass
 
 from injector import inject, Inject
 
+import nest_asyncio
+
 from src.music_events_notifier.services.scrapping_services.interface import ITicketPortalService, ILastFmService
-from src.music_events_notifier.services.scrapping_services.last_fm_service import LastFmService
 from src.music_events_notifier.workers.interface import IScrapingWorker
+
+nest_asyncio.apply()
 
 log = logging.getLogger(__name__)
 
@@ -25,7 +29,7 @@ class ScrapingWorker(IScrapingWorker):
         self.deps = deps
 
     def start_scraping(self):
-        events = self.deps.ticket_portal_service.get_event_data()
+        events = asyncio.run(self.deps.ticket_portal_service.get_event_data())
         log.info(events)
 
         result = self.deps.lastfm_service.request_top_artists("json")

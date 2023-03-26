@@ -29,6 +29,10 @@ pre-commit = "==2.19.0"
 sentry-sdk = "==1.6.0"
 # for Dependency injection and start o IoC
 injector = "*"
+# patches asyncio so we can start nested loop in the main loop
+# this is beacause we can pass the couroutine in this web serverver
+# env - or research would be needed
+nest-asyncio = "==1.5.6"
 
 [dev-packages]
 

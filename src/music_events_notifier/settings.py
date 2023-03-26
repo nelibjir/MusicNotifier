@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     REQUEST_NB_ATTEMPTS = 5
 
     class Config:
-        env_file = "../../.env"
+        env_file = ".env"
 
 
 settings = Settings()
