@@ -1,0 +1,45 @@
+exclude: '^(data/|app_data/)'
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+      - id: check-added-large-files
+      - id: check-ast
+      - id: check-docstring-first
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-merge-conflict
+        exclude: data/
+      - id: debug-statements
+      - id: end-of-file-fixer
+        exclude: data/
+      - id: mixed-line-ending
+        args: [--fix=lf]
+        exclude: data/
+      - id: trailing-whitespace
+        exclude: data/
+      - id: name-tests-test
+        args: [ '--django' ]
+        exclude: data/
+  - repo: https://github.com/pycqa/flake8
+    rev: '4.0.1'
+    hooks:
+      - id: flake8
+        additional_dependencies:
+          - flake8-noqa==1.2.2
+        args: [ --config, .flake8 ]
+  # TODO: disabled bandit due to issues with [0.0.0.0] IP address.
+  #  - repo: https://github.com/pycqa/bandit
+  #    rev: 1.7.0
+  #    hooks:
+  #      - id: bandit
+  #        args: [-ll]
+  - repo: https://github.com/timothycrosley/isort
+    rev: 5.8.0
+    hooks:
+      - id: isort
+        args: ["--profile", "black"]
+  - repo: https://github.com/python/black
+    rev: 22.3.0
+    hooks:
+      - id: black
